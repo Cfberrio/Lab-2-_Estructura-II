@@ -1,17 +1,12 @@
-import sys
-import mpu
-from geopy import Point
-import geopy.distance
 import folium
 import pandas as pd
 import numpy as np
-print(sys.setrecursionlimit(4000))
 data = pd.read_csv("co.csv")
 data_capitals=["capital","lat","lng"]
 data_capitals = data.loc[data['capital'].isin(["primary","admin"])]
 data_city = data_capitals[["city","lat","lng"]]
 
-m = folium.Map(location=[10.963889,-74.796387], zoom_start=13)
+m = folium.Map(location=[10.963889,-74.796387], zoom_start=5.3)
 lista = data_city.values.tolist()
 for row in lista:
     folium.Marker([row[1], row[2]], popup=row[0]).add_to(m)
@@ -28,6 +23,7 @@ for i in range(len(lista_cords_o)):
     cord1=lista_cords_o[i].split(', ')
     lat1 =float(cord1[0])
     lon1 =float(cord1[1])
-    points.append([cord1[0], cord1[1]])
-folium.PolyLine(points, color = "red").add_to(m)
+    points.append([lat1, lon1])
+folium.PolyLine(points, color ="red").add_to(m)
+
 m.save("try.html")
